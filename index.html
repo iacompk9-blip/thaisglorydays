@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#050505">
+  <title>Glory Days Streetwear</title>
+  <style>
+    * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+    html, body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      min-height: 100%;
+      background: #050505;
+    }
+    body {
+      display: flex;
+      justify-content: center;
+      overflow-x: hidden;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+    .page {
+      position: relative;
+      width: min(100vw, 576px);
+      line-height: 0;
+      user-select: none;
+    }
+    .poster {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+    .hotspot {
+      position: absolute;
+      left: 10.5%;
+      width: 80%;
+      height: 7.9%;
+      border-radius: 999px;
+      background: rgba(0, 110, 255, 0);
+      border: 1px solid rgba(0, 150, 255, 0);
+      transition: background .12s ease, box-shadow .12s ease, border-color .12s ease;
+      cursor: pointer;
+      -webkit-touch-callout: none;
+    }
+    .hotspot:active,
+    .hotspot.pressed {
+      background: rgba(0, 110, 255, .43);
+      border-color: rgba(35, 151, 255, .95);
+      box-shadow: inset 0 0 25px rgba(0, 132, 255, .65), 0 0 22px rgba(0, 115, 255, .45);
+    }
+
+    /* Positions are based on the 1024x1792 poster. */
+    #zap { top: 54.1%; }
+    #loja { top: 61.7%; }
+    #meu { top: 69.5%; }
+    #pix { top: 77.3%; }
+
+    .toast {
+      position: fixed;
+      left: 50%;
+      bottom: calc(18px + env(safe-area-inset-bottom));
+      transform: translate(-50%, 20px);
+      padding: 11px 16px;
+      border-radius: 999px;
+      background: rgba(0,0,0,.88);
+      color: white;
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: .2px;
+      opacity: 0;
+      pointer-events: none;
+      transition: .2s ease;
+      z-index: 10;
+      white-space: nowrap;
+    }
+    .toast.show {
+      opacity: 1;
+      transform: translate(-50%, 0);
+    }
+  </style>
+</head>
+<body>
+  <main class="page" aria-label="Glory Days Streetwear">
+    <img class="poster" src="glory-days-bg.png" alt="Glory Days Streetwear">
+
+    <a class="hotspot" id="zap"
+       href="https://wa.me/5531994033015"
+       aria-label="Abrir WhatsApp"></a>
+
+    <a class="hotspot" id="loja"
+       href="https://www.instagram.com/_gloryd4ysjm/?stkn=MTlyaTJtN3BnN3I3"
+       target="_blank" rel="noopener"
+       aria-label="Instagram da loja"></a>
+
+    <a class="hotspot" id="meu"
+       href="https://www.instagram.com/thaisdiasduarte_/?stkn=MXRybXIxanBsOG9kZA=="
+       target="_blank" rel="noopener"
+       aria-label="Meu Instagram"></a>
+
+    <button class="hotspot" id="pix" type="button" aria-label="Copiar chave Pix"></button>
+  </main>
+
+  <div class="toast" id="toast">Pix copiado!</div>
+
+  <script>
+    const pixKey = "14029956602";
+    const pix = document.getElementById("pix");
+    const toast = document.getElementById("toast");
+
+    pix.addEventListener("click", async () => {
+      pix.classList.add("pressed");
+      setTimeout(() => pix.classList.remove("pressed"), 180);
+
+      try {
+        await navigator.clipboard.writeText(pixKey);
+        toast.classList.add("show");
+        setTimeout(() => toast.classList.remove("show"), 1600);
+      } catch {
+        const area = document.createElement("textarea");
+        area.value = pixKey;
+        document.body.appendChild(area);
+        area.select();
+        document.execCommand("copy");
+        area.remove();
+        toast.classList.add("show");
+        setTimeout(() => toast.classList.remove("show"), 1600);
+      }
+    });
+
+    document.querySelectorAll(".hotspot").forEach(el => {
+      el.addEventListener("touchstart", () => el.classList.add("pressed"), {passive:true});
+      el.addEventListener("touchend", () => setTimeout(() => el.classList.remove("pressed"), 130), {passive:true});
+      el.addEventListener("touchcancel", () => el.classList.remove("pressed"), {passive:true});
+    });
+  </script>
+</body>
+</html>
